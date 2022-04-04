@@ -1,10 +1,13 @@
 package com.cc.sdjpaintro.model;
 
+import com.cc.sdjpaintro.model.sequencegenerators.StringPrefixSequenceIdGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,8 +22,14 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GenericGenerator(name = "book_id_generator",
+            strategy = "com.cc.sdjpaintro.model.sequencegenerators.StringPrefixSequenceIdGenerator",
+            parameters = {
+                    @Parameter(name = StringPrefixSequenceIdGenerator.VALUE_PREFIX_PARAM, value = "B_"),
+                    @Parameter(name = StringPrefixSequenceIdGenerator.NUMBER_FORMAT_PARAM, value = "%05d")
+            })
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_id_generator")
+    private String id;
 
     private String title;
     private String isbn;
