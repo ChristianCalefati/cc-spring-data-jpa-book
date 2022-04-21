@@ -1,7 +1,9 @@
 package com.cc.sdjpaintro.bootstrap;
 
 import com.cc.sdjpaintro.dao.BookRepository;
+import com.cc.sdjpaintro.dao.GameRepository;
 import com.cc.sdjpaintro.model.Book;
+import com.cc.sdjpaintro.model.Game;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class DataLoader implements CommandLineRunner {
 
     private final BookRepository bookRepository;
+    private final GameRepository gameRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -32,5 +35,15 @@ public class DataLoader implements CommandLineRunner {
             System.out.println("Book isbm: " + book.getIsbn());
             System.out.println("Book publisher: " + book.getPublisher());
         });
+
+        Game gta = new Game();
+        gta.setPublisher("Publisher_try");
+        gta.setCost(56D);
+        gameRepository.save(gta);
+
+        Game atm = new Game();
+        atm.setPublisher("Publisher_try_1");
+        atm.setCost(58D);
+        gameRepository.save(atm);
     }
 }
